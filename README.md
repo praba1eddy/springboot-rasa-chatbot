@@ -1,96 +1,153 @@
-Spring Boot Microservices Chatbot with Rasa
+# ChatGPT-like Application Using Spring Boot, REST, and Rasa (Open Source Chatbot)
 
-This project is a simple ChatGPT-like chatbot application that integrates a Spring Boot microservice with a Rasa NLU engine using REST APIs. The frontend is an optional basic HTML/JavaScript interface. All code is version-controlled using Git and connected to the IDE.
+## 📝 Assignment Task
+Build a ChatGPT-like application using:
+- **Spring Boot** for backend REST APIs
+- **Rasa** as the open-source chatbot engine
+- **Maven** for project management
+- **Git** for version control (must be connected to your IDE)
+- **Optional Frontend**: Simple HTML + JavaScript UI
 
-💡 Features
-Chat with a Rasa-powered bot via Spring Boot REST API
-Microservices architecture with Spring Boot backend
-RESTful communication with Rasa
-NLP powered by Rasa (open-source)
-Optional frontend using simple HTML/JavaScript
-Built using Maven and Git
+## 📦 Tech Stack
+| Layer       | Technology            |
+|-------------|------------------------|
+| Backend     | Spring Boot (REST API) |
+| Chatbot     | Rasa (Open Source)     |
+| Frontend    | HTML + JavaScript *(optional)* |
+| Build Tool  | Maven                 |
+| VCS         | Git                   |
 
-Project Structure
+---
+
+## 🛠️ Project Structure
+
 spring-rasa-chatbot/
 ├── src/
-
 │   ├── main/
-
 │   │   ├── java/com/chatbot/
-
 │   │   │   ├── controller/ChatController.java
-
 │   │   │   ├── service/RasaService.java
-│   │   │   ├── config/SecurityConfig.java
+│   │   │   ├── SecurityConfig.java
 │   │   │   └── SpringRasaChatbotApplication.java
 │   │   ├── resources/
+│   │   │   ├── static/index.html *(Optional Frontend)*
 │   │   │   ├── application.properties
-│   │   │   └── static/index.html
-│   └── rasa_bot.rasa_bot/
-│       ├── data/nlu.yml
-│       ├── domain.yml
-│       ├── config.yml
-│       ├── endpoints.yml
-│       └── models/
+│   ├── rasa_bot.rasa_bot/ *(Rasa project)*
+│   │   ├── data/nlu.yml
+│   │   ├── domain.yml
+│   │   ├── config.yml
+│   │   ├── endpoints.yml
+│   │   └── models/
+├── pom.xml
 
-How to Run
 
-1️⃣ Clone the Repository & Connect Git
+---
 
-git clone https://github.com/your-username/spring-rasa-chatbot.git
-cd spring-rasa-chatbot
-git remote -v
-Ensure your IDE (e.g., IntelliJ, Eclipse) is connected to Git and project is imported.
-2️⃣ Run Rasa Server
+## ▶️ Steps to Run the Application
+
+### 1. 🚀 Start Rasa Server
+
 cd rasa_bot.rasa_bot
 rasa train
-rasa run --enable-api --cors "*" -p 8090
-3️⃣ Run Spring Boot Application
-./mvnw spring-boot:run
-Or run SpringRasaChatbotApplication.java from your IDE.
-4️⃣ Access the Chat UI
-Open http://localhost:8081
-🧪 Test with curl
-curl -X POST http://localhost:8081/chat/send \
--H "Content-Type: application/json" \
--d '{"message": "hi"}'
-💬 Sample Interactions
-User Message
-Bot Reply
-hi
-Hey! How are you?
-who are you
-I am a bot, powered by Rasa.
-how are you
-I am good, how are you?
+rasa run -p 8090
 
-⚙️ Tech Stack
-Spring Boot 3.4.4
-Java 17+
-Rasa 3.x
-REST APIs
-HTML/JavaScript (optional)
-Maven
-Git
 
-🛡️ Security
+### 2. 🔧 Configure Spring Boot
+Edit `application.properties` (if needed):
+properties
+server.port=8081
 
-To disable Spring Security login prompt, modify SecurityConfig.java:
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-http.csrf().disable()
-.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-return http.build();
+### 3. 🧠 Backend (Spring Boot)
+Run the Spring Boot app via IDE or command line:
+
+mvn spring-boot:run
+
+
+### 4. 💬 API Endpoints
+| Method | URL                      | Description                  |
+|--------|--------------------------|------------------------------|
+| GET    | `/chat/test`            | Check if service is up       |
+| POST   | `/chat/send`            | Send message to Rasa chatbot |
+
+**Example POST Request**:
+json
+POST http://localhost:8081/chat/send
+{
+  "message": "Hi"
 }
 
-📦 Build with Maven
 
-mvn clean install
-🧠 Train Rasa Model
+---
 
-cd rasa_bot.rasa_bot
-rasa train
+ 🌐 Optional Frontend (HTML)
+Path: src/main/resources/static/index.html`
+
+`html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spring Boot Rasa Chat</title>
+</head>
+<body>
+    <h2>Spring Boot Rasa Chat</h2>
+    <input type="text" id="userMessage" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+    <p><strong>Bot Reply:</strong> <span id="botReply"></span></p>
+
+  <script>
+        function sendMessage() {
+            const message = document.getElementById("userMessage").value;
+            fetch('/chat/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            })
+            .then(res => res.text())
+            .then(data => document.getElementById("botReply").innerText = data);
+        }
+    </script>
+</body>
+</html>
 
 
-Happy Building Your Own ChatGPT-style Chatbot with Spring Boot & Rasa! 🤖
+---
+
+## 🧾 Git Setup
+1. Initialize repo:
+```bash
+git init
+git remote add origin <your-repo-url>
+```
+2. Push Code:
+```bash
+git add .
+git commit -m "Initial commit - Spring Boot + Rasa chatbot"
+git push -u origin main
+```
+
+---
+
+## ✅ Output Example
+json
+User: Hi
+Bot: Hey! How are you?
+
+User: Who are you?
+Bot: I am a bot, powered by Rasa.
+
+
+---
+
+## 📌 Notes
+- Make sure Rasa is trained and running before hitting Spring Boot endpoints.
+- Use Postman or curl for testing APIs.
+- Keep models in sync between updates.
+
+---
+
+## 📚 Resources
+- Rasa Docs: https://rasa.com/docs/
+- Spring Boot Docs: https://spring.io/projects/spring-boot
+- GitHub Markdown Guide: https://guides.github.com/features/mastering-markdown/
+
