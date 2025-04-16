@@ -13,9 +13,13 @@ Built using Maven and Git
 Project Structure
 spring-rasa-chatbot/
 ├── src/
+
 │   ├── main/
+
 │   │   ├── java/com/chatbot/
+
 │   │   │   ├── controller/ChatController.java
+
 │   │   │   ├── service/RasaService.java
 │   │   │   ├── config/SecurityConfig.java
 │   │   │   └── SpringRasaChatbotApplication.java
