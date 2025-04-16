@@ -30,3 +30,8 @@ rules:
   steps:
   - intent: mood_happy
   - action: utter_happy
+
+- rule: how are you
+  steps:
+  - intent: how_are_you
+  - action: utter_how_are_you

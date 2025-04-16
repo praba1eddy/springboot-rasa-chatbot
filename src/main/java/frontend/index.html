@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ChatBot UI</title>
+    <title>Chat with Rasa</title>
 </head>
 <body>
-<input type="text" id="msg" placeholder="Type your message..." />
-<button onclick="send()">Send</button>
-<div id="chatbox"></div>
+<h2>Spring Boot Rasa Chat</h2>
+<input type="text" id="message" placeholder="Type your message" />
+<button onclick="sendMessage()">Send</button>
+<p><strong>Bot Reply:</strong> <span id="reply"></span></p>
 
 <script>
-    async function send() {
-        const message = document.getElementById("msg").value;
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({message})
+    function sendMessage() {
+        const msg = document.getElementById("message").value;
+        fetch("http://localhost:8081/chat/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: msg })
+        })
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById("reply").innerText = data;
+        })
+        .catch(err => {
+            console.error("Error:", err);
+            document.getElementById("reply").innerText = "Error communicating with the bot.";
         });
-        const data = await response.json();
-        document.getElementById("chatbox").innerHTML += "<br/>Bot: " + JSON.stringify(data);
     }
 </script>
 </body>

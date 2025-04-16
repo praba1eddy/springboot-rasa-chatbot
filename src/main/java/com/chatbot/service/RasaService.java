@@ -9,7 +9,7 @@ import java.util.*;
 
 @Service
 public class RasaService {
-    private final String RASA_URL = "http://localhost:5005/webhooks/rest/webhook";
+    private final String RASA_URL = "http://localhost:8090/webhooks/rest/webhook";
 
     public String sendMessageToRasa(String userMessage) {
         RestTemplate restTemplate = new RestTemplate();
